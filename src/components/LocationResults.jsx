@@ -1,6 +1,6 @@
 import "../styles/location.css";
 
-function LocationResults({ location }) {
+function LocationResults({ location, onFetchWeatherData }) {
   return (
     <div className='location-container'>
       <div>
@@ -9,7 +9,17 @@ function LocationResults({ location }) {
         <p>{location.timezone}</p>
       </div>
 
-      <button>Select</button>
+      <button
+        onClick={() =>
+          onFetchWeatherData(
+            `${location.name},${location.country}`,
+            location.latitude,
+            location.longitude,
+          )
+        }
+      >
+        Select
+      </button>
     </div>
   );
 }
