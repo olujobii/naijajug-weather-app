@@ -32,8 +32,8 @@ function App() {
     try {
       const response = await fetch(`${GEOCODE_URL}?name=${formInput}&count=5`);
 
-      if (response.status !== 200)
-        throw new Error("Error fetching Location, try again later");
+      if (!response.ok) throw new Error("Server error, try again later");
+
       const data = await response.json();
 
       console.log(response);
@@ -41,7 +41,7 @@ function App() {
 
       //If results does not exists since API always returns 200, I had to do a manual error handling
       if (!data.results || data.results.length === 0)
-        throw new Error("City not found");
+        throw new Error("City not found, try a different name");
 
       if (data.results.length > 1) {
         setLocations(data.results);
@@ -55,8 +55,11 @@ function App() {
         data.results[0].longitude,
       );
     } catch (error) {
-      console.log(error);
-      setError(`${error.message}`);
+      if (error instanceof TypeError) {
+        setError("Network Error, check your connection");
+      } else {
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -74,13 +77,10 @@ function App() {
         `${WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,wind_speed_10m,relative_humidity_2m`,
       );
 
-      if (response.status !== 200)
-        throw new Error("Error fetching weather data, try again later");
+      if (!response.ok) throw new Error("Server error, try again later");
 
       console.log(response);
       const data = await response.json();
-
-      if (!data) throw new Error("Error getting weather data. Try again later");
 
       console.log(data);
       setWeather({
@@ -94,7 +94,11 @@ function App() {
         humidityUnit: data.current_units.relative_humidity_2m,
       });
     } catch (error) {
-      setError(`${error.message}`);
+      if (error instanceof TypeError) {
+        setError("Network Error, check your connection");
+      } else {
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
     }
