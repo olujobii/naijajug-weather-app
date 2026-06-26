@@ -1,27 +1,22 @@
-/*style={{ border: "2px solid red", width: "50%", display: "flex" }}*/
+.location-grid-container {
+  display: grid;
+  gap: 4rem;
+}
 
-form {
+.location-container {
   border: 1px solid #e2e2ec;
-  width: 50%;
+  /* width: 50%; */
   margin-top: 2rem;
   padding: 2rem;
   background: #f8f8ff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
-}
-
-form .input-container {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 1rem;
 }
 
-form .input-container input:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.submit-btn {
+.location-container button {
   border: none;
   background-color: #000;
   color: #fff;
@@ -29,4 +24,10 @@ form .input-container input:focus {
   padding: 1em;
   border-radius: 0.51em;
   cursor: pointer;
+}
+
+@media (width >= 750px) {
+  .location-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

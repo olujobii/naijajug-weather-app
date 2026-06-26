@@ -18,4 +18,5 @@ body {
   align-items: center;
   width: min(90%, 1200px);
   margin: auto;
+  gap: 3rem;
 }
